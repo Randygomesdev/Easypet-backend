@@ -1,4 +1,4 @@
-package br.com.easypet.easypet;
+package br.com.easypet;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
