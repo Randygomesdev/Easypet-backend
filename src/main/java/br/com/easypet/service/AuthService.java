@@ -5,9 +5,10 @@ import br.com.easypet.domain.enums.Role;
 import br.com.easypet.dto.request.LoginRequest;
 import br.com.easypet.dto.request.RegisterRequest;
 import br.com.easypet.dto.response.AuthResponse;
+import br.com.easypet.exception.BusinessException;
+import br.com.easypet.exception.ResourceNotFoundException;
 import br.com.easypet.repository.UserRepository;
 import br.com.easypet.security.JwtService;
-import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +26,7 @@ public class AuthService {
 
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
-            throw new RuntimeException("Email já cadastrado");
+            throw new BusinessException("Email já cadastrado");
         }
 
         User user = User.builder()
@@ -48,7 +49,7 @@ public class AuthService {
         );
 
         User user = userRepository.findByEmail(request.email())
-                .orElseThrow(()->new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(()->new ResourceNotFoundException("Usuário não encontrado"));
 
         String token = jwtService.generateToken(user.getEmail());
 
