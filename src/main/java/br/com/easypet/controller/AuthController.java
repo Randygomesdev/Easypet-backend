@@ -2,6 +2,7 @@ package br.com.easypet.controller;
 
 import br.com.easypet.dto.request.LoginRequest;
 import br.com.easypet.dto.request.RegisterRequest;
+import br.com.easypet.dto.request.RegisterVetRequest;
 import br.com.easypet.dto.response.AuthResponse;
 import br.com.easypet.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,6 +25,12 @@ public class AuthController {
     @Operation(summary = "Registrar novo usuário")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(request));
+    }
+
+    @PostMapping("/register/vet")
+    @Operation(summary = "Registrar novo veterinário")
+    public ResponseEntity<AuthResponse> registerVet(@Valid @RequestBody RegisterVetRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerVet(request.credentials(), request.professional()));
     }
 
     @PostMapping("/login")
