@@ -10,6 +10,9 @@ import java.util.Optional;
 public interface VetRepository extends JpaRepository<Vet, Long> {
 
     List<Vet> findByactiveTrue();
+
     Optional<Vet> findByCrmv(String crmv);
+    Optional<Vet> findByUserEmail(String email);
+
     boolean existsByCrmv(String crmv);
 }
