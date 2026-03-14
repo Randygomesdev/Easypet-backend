@@ -7,6 +7,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +39,8 @@ public class AppointmentController {
 
     @GetMapping
     @Operation(summary = "Listar agendamentos do usuário autenticado")
-    public ResponseEntity<List<AppointmentResponse>> findAll() {
-        return ResponseEntity.ok(appointmentService.findAll());
+    public ResponseEntity<Page<AppointmentResponse>> findAll(@PageableDefault(size = 10, sort = "scheduledAt") Pageable pageable) {
+        return ResponseEntity.ok(appointmentService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
@@ -54,7 +57,7 @@ public class AppointmentController {
 
     @GetMapping("/vet")
     @Operation(summary = "Listar agendamentos do veterinário autenticado")
-    public ResponseEntity<List<AppointmentResponse>> findByVet() {
-        return ResponseEntity.ok(appointmentService.findByVet());
+    public ResponseEntity<Page<AppointmentResponse>> findByVet(@PageableDefault(size = 10, sort = "scheduledAt") Pageable pageable) {
+        return ResponseEntity.ok(appointmentService.findByVet(pageable));
     }
 }

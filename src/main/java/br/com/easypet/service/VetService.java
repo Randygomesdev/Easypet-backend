@@ -7,6 +7,8 @@ import br.com.easypet.exception.BusinessException;
 import br.com.easypet.exception.ResourceNotFoundException;
 import br.com.easypet.repository.VetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,11 +21,9 @@ public class VetService {
     private final VetRepository vetRepository;
 
     @Transactional
-    public List<VetResponse> findAll() {
-        return vetRepository.findByactiveTrue()
-                .stream()
-                .map(VetResponse::from)
-                .toList();
+    public Page<VetResponse> findAll(Pageable pageable) {
+        return vetRepository.findByactiveTrue(pageable)
+                .map(VetResponse::from);
     }
 
     @Transactional

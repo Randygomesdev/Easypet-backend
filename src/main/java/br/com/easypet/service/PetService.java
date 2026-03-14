@@ -9,11 +9,14 @@ import br.com.easypet.exception.ResourceNotFoundException;
 import br.com.easypet.repository.PetRepository;
 import br.com.easypet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+
+
 
 @Service
 @RequiredArgsConstructor
@@ -44,12 +47,10 @@ public class PetService {
     }
 
     @Transactional
-    public List<PetResponse> findAll() {
+    public Page<PetResponse> findAll(Pageable pageable) {
         User owner = getAuthenticatedUser();
-        return petRepository.findByOwner(owner)
-                .stream()
-                .map(PetResponse::from)
-                .toList();
+        return petRepository.findByOwner(owner, pageable)
+                .map(PetResponse::from);
     }
 
     @Transactional

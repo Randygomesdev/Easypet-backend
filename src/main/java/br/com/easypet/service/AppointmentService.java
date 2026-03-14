@@ -15,6 +15,8 @@ import br.com.easypet.repository.UserRepository;
 import br.com.easypet.repository.VetRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -60,12 +62,10 @@ public class AppointmentService {
     }
 
     @Transactional
-    public List<AppointmentResponse> findAll() {
+    public Page<AppointmentResponse> findAll(Pageable pageable) {
         User owner = getAuthenticatedUser();
-        return appointmentRepository.findByPetOwnerId(owner.getId())
-                .stream()
-                .map(AppointmentResponse::from)
-                .toList();
+        return appointmentRepository.findByPetOwnerId(owner.getId(), pageable)
+                .map(AppointmentResponse::from);
     }
 
     @Transactional
@@ -96,7 +96,7 @@ public class AppointmentService {
     }
 
     @Transactional
-    public List<AppointmentResponse> findByVet() {
+    public Page<AppointmentResponse> findByVet(Pageable pageable) {
         String email = SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getName();
@@ -104,10 +104,8 @@ public class AppointmentService {
         Vet vet = vetRepository.findByUserEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Veterinário não encontrado"));
 
-        return appointmentRepository.findByVetId(vet.getId())
-                .stream()
-                .map(AppointmentResponse::from)
-                .toList();
+        return appointmentRepository.findByVetId(vet.getId(), pageable)
+                .map(AppointmentResponse::from);
     }
 
     private User getAuthenticatedUser() {

@@ -1,6 +1,8 @@
 package br.com.easypet.repository;
 
 import br.com.easypet.domain.entity.Appointment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +14,8 @@ import java.util.Optional;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     List<Appointment> findByPetId(Long petId);
-    List<Appointment> findByVetId(Long vetId);
-    List<Appointment> findByPetOwnerId(Long ownerId);
+    Page<Appointment> findByVetId(Long vetId, Pageable pageable);
+    Page<Appointment> findByPetOwnerId(Long ownerId, Pageable pageable);
 
     Optional<Appointment> findByPetIdAndScheduledAt(Long petId, LocalDateTime scheduledAt);
     Optional<Appointment> findByIdAndPetOwnerId(Long id, Long ownerId);
