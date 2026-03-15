@@ -52,4 +52,9 @@ public class JwtService {
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
+
+    public long getExpirationTime(String token) {
+        Date expiration =  extractClaims(token).getExpiration();
+        return expiration.getTime() - System.currentTimeMillis();
+    }
 }

@@ -7,6 +7,7 @@ import br.com.easypet.repository.UserRepository;
 import br.com.easypet.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,17 @@ public class UserController {
     @Operation(summary = "Trocar senha do usuário autenticado")
     public ResponseEntity<Void> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
         userService.changePassword(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "Logout do usuário autenticado")
+    public ResponseEntity<Void> logout(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            userService.logout(token);
+        }
         return ResponseEntity.noContent().build();
     }
 }

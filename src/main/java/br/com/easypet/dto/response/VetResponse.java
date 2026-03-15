@@ -2,6 +2,8 @@ package br.com.easypet.dto.response;
 
 import br.com.easypet.domain.entity.Vet;
 
+import java.io.Serializable;
+
 public record VetResponse(
         Long id,
         String name,
@@ -10,7 +12,7 @@ public record VetResponse(
         String phone,
         String email,
         Boolean active
-) {
+) implements Serializable {
     public static VetResponse from(Vet vet) {
         return new VetResponse(
                 vet.getId(),
