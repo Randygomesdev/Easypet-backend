@@ -7,6 +7,7 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue?style=flat-square&logo=postgresql)
 ![Redis](https://img.shields.io/badge/Redis-7-red?style=flat-square&logo=redis)
 ![Docker](https://img.shields.io/badge/Docker-compose-blue?style=flat-square&logo=docker)
+![Railway](https://img.shields.io/badge/Railway-deployed-success?style=flat-square&logo=railway)
 
 ---
 
@@ -272,11 +273,18 @@ O Redis é utilizado para:
 
 ## 📖 Documentação
 
-A documentação completa da API está disponível via Swagger UI:
+| Ambiente | URL |
+|----------|-----|
+| Local | http://localhost:8080/swagger-ui/index.html |
+| Produção | https://easypet-backend-production.up.railway.app/swagger-ui/index.html |
 
-```
-http://localhost:8080/swagger-ui/index.html
-```
+---
+
+## 🚀 Deploy
+
+A API está disponível em produção no Railway:
+
+**Base URL:** `https://easypet-backend-production.up.railway.app`
 
 ---
 
