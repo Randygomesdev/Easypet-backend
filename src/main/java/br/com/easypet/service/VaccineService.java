@@ -109,7 +109,7 @@ public class VaccineService {
                 .getAuthentication()
                 .getName();
         return userRepository.findByEmail(email)
-                .orElseThrow(()-> new RuntimeException("Usuário não encontrado"));
+                .orElseThrow(()-> new ResourceNotFoundException("Usuário não encontrado"));
     }
 
     private VaccineStatus calculateStatus(LocalDate nextDoseDate) {
