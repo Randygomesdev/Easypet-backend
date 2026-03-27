@@ -39,6 +39,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/vets/**").hasAnyRole("USER", "ADMIN", "VET")
+                        .requestMatchers("/api/vets/vaccinations/**").hasAnyRole( "VET", "ADMIN")
                         .requestMatchers("/api/vets/**").hasRole("ADMIN")
                         .requestMatchers("/api/pets/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN", "VET")
