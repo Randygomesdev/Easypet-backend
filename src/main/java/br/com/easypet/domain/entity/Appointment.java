@@ -31,11 +31,11 @@ public class Appointment {
     private Vet vet;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private AppointmentType type;
+    @Column(name = "appointment_type", nullable = false)
+    private AppointmentType appointmentType;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "appointment_status", nullable = false)
     private AppointmentStatus status;
 
     @Column(nullable = false, name = "scheduled_at")

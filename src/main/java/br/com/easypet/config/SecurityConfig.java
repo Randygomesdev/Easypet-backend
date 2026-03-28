@@ -40,6 +40,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/vets/**").hasAnyRole("USER", "ADMIN", "VET")
                         .requestMatchers("/api/vets/vaccinations/**").hasAnyRole( "VET", "ADMIN")
+                        .requestMatchers("/api/vets/appointments/**").hasAnyRole("ADMIN", "VET")
                         .requestMatchers("/api/vets/**").hasRole("ADMIN")
                         .requestMatchers("/api/pets/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/users/**").hasAnyRole("USER", "ADMIN", "VET")

@@ -20,7 +20,7 @@ public record AppointmentResponse(
                 appointment.getId(),
                 appointment.getPet().getName(),
                 appointment.getVet().getUser().getName(),
-                appointment.getType(),
+                appointment.getAppointmentType(),
                 appointment.getStatus(),
                 appointment.getScheduledAt(),
                 appointment.getNotes()

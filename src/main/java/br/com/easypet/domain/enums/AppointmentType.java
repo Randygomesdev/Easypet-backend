@@ -1,8 +1,8 @@
 package br.com.easypet.domain.enums;
 
 public enum AppointmentType {
-    CONSULTATION,
-    BATH,
+    VET_CONSULTATION,
     GROOMING,
-    BATH_AND_GROOMING
+    WALKING,
+    PET_HOTEL
 }

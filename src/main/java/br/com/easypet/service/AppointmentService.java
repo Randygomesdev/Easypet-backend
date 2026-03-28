@@ -52,7 +52,7 @@ public class AppointmentService {
         Appointment appointment = Appointment.builder()
                 .pet(pet)
                 .vet(vet)
-                .type(request.type())
+                .appointmentType(request.type())
                 .status(AppointmentStatus.SCHEDULED)
                 .scheduledAt(request.scheduledAt())
                 .notes(request.notes())
