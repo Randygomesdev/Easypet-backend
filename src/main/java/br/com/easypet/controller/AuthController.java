@@ -23,6 +23,17 @@ public class AuthController {
 
     private final AuthService authService;
 
+    @PostMapping("/register/admin")
+    @Operation(summary = "Registrar administrador (remover em produção)")
+    public ResponseEntity<AuthResponse> registerAdmin(@Valid @RequestBody RegisterRequest request) {
+        AuthResponse response = authService.registerAdmin(request);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.email())
+                .toUri();
+        return ResponseEntity.created(uri).body(response);
+    }
+
     @PostMapping("/register")
     @Operation(summary = "Registrar novo usuário")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {

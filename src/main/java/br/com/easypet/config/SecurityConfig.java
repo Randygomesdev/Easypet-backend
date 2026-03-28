@@ -47,6 +47,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/appointments/vet").hasRole( "VET")
                         .requestMatchers("/api/appointments/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/vaccines/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/notifications/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

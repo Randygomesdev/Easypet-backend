@@ -22,7 +22,24 @@ spring:
       ddl-auto: validate
     open-in-view: false
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+notification:
+  vaccine:
+    days-before: 30,10,0
+
 security:
   jwt:
     secret: ${JWT_SECRET:f29796ee04ae9634b97c2a75f0a1f26c6b8f8044e5d37d9289ba57db5964d697}
     expiration: 86400000
+
