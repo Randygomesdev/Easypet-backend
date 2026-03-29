@@ -13,7 +13,7 @@
 
 ## 📋 Sobre o Projeto
 
-O **EasyPet** é uma API REST desenvolvida com Spring Boot para gerenciamento de clínicas e petshops. Permite que tutores cadastrem seus pets, agendem consultas e serviços com veterinários, e acompanhem o histórico de atendimentos.
+O **EasyPet** é uma API REST corporativa desenvolvida com Spring Boot para gerenciamento de clínicas veterinárias. Permite que tutores cadastrem seus pets, agendem consultas e tenham acesso à carteira de vacinação digital. Oferece ao corpo clínico um sistema completo de prontuários eletrônicos, prescrições médicas e notificações assíncronas automáticas (via E-mail) para lembretes de vacinas.
 
 ---
 
@@ -31,6 +31,7 @@ O **EasyPet** é uma API REST desenvolvida com Spring Boot para gerenciamento de
 | JWT (jjwt) | 0.12.6 | Autenticação stateless |
 | Lombok | - | Redução de boilerplate |
 | Swagger/OpenAPI | 3 | Documentação da API |
+| Thymeleaf & JavaMail | 3 | Templates HTML e envio de E-mails |
 | Docker | - | Containerização |
 
 ---
@@ -208,6 +209,24 @@ Authorization: Bearer {seu-token-aqui}
 | PATCH | `/api/appointments/{id}/cancel` | Cancelar agendamento | USER, ADMIN |
 | GET | `/api/appointments/vet` | Agendamentos do vet | VET |
 
+### 📋 Prontuários (Medical Records)
+| Método | Endpoint | Descrição | Role |
+|--------|----------|-----------|------|
+| POST | `/api/vets/appointments/{id}/records` | Criar prontuário, exames e receitas | VET |
+
+### 💉 Vacinas
+| Método | Endpoint | Descrição | Role |
+|--------|----------|-----------|------|
+| POST | `/api/vaccines` | Registrar vacina do pet | USER, ADMIN |
+| GET | `/api/vaccines?petId={id}` | Listar vacinas do pet | USER, ADMIN |
+| POST | `/api/vets/vaccinations` | Aplicação de vacina pelo Vet | VET, ADMIN |
+
+### 🔔 Notificações & Cron Jobs
+| Método | Endpoint | Descrição | Role |
+|--------|----------|-----------|------|
+| Sistema | `@Scheduled(cron = "0 0 8 * * *")` | Disparo automático diário de lembretes | SYSTEM |
+| POST | `/api/notifications/vaccines/check` | Disparo manual programado | ADMIN |
+
 ---
 
 ## 🗄️ Banco de Dados
@@ -231,7 +250,8 @@ users
 
 pets
   ├── id, name, species, breed, birth_date, gender, microchip_number
-  └── N:1 → users (owner_id)
+  ├── N:1 → users (owner_id)
+  └── 1:N → vaccines (pet_id)
 
 vets
   ├── id, name, crmv, specialty, phone, active
@@ -240,7 +260,12 @@ vets
 appointments
   ├── id, type, status, scheduled_at, notes
   ├── N:1 → pets (pet_id)
-  └── N:1 → vets (vet_id)
+  ├── N:1 → vets (vet_id)
+  └── 1:1 → medical_records (appointment_id)
+
+vaccines
+  ├── id, name, laboratory, lote, dose_date, next_dose_date
+  └── N:1 → pets (pet_id)
 ```
 
 ---
@@ -268,6 +293,12 @@ O Redis é utilizado para:
 | `REDIS_HOST` | localhost | Host do Redis |
 | `REDIS_PORT` | 6379 | Porta do Redis |
 | `JWT_SECRET` | - | Chave secreta JWT (obrigatória em produção) |
+
+---
+
+## 🗂️ Postman Collection
+
+Para facilitar os testes, o repositório conta com o arquivo `EasyPet-Postman-Collection.json` na raiz do projeto. Ele contém **todos os endpoints documentados**, com pastas organizadas e injeção automática de **Bearer Token** ao efetuar login. Basta importar no Postman e começar a testar.
 
 ---
 

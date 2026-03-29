@@ -29,6 +29,23 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    public AuthResponse registerAdmin(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.email())) {
+            throw new BusinessException("Email já cadastrado");
+        }
+
+        User user = User.builder()
+                .name(request.name())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .role(Role.ADMIN)
+                .build();
+
+        userRepository.save(user);
+        String token = jwtService.generateToken(user.getEmail());
+        return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole().name());
+    }
+
     public AuthResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.email())) {
             throw new BusinessException("Email já cadastrado");
