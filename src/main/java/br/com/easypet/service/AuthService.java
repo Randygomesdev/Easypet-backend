@@ -42,7 +42,13 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
-        String token = jwtService.generateToken(user.getEmail());
+        org.springframework.security.core.userdetails.UserDetails springUser = 
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                );
+        String token = jwtService.generateToken(springUser);
         return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole().name());
     }
 
@@ -59,7 +65,13 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
-        String token = jwtService.generateToken(user.getEmail());
+        org.springframework.security.core.userdetails.UserDetails springUser = 
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                );
+        String token = jwtService.generateToken(springUser);
         return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole().name());
     }
 
@@ -93,7 +105,13 @@ public class AuthService {
 
         vetRepository.save(vet);
 
-        String token = jwtService.generateToken(user.getEmail());
+        org.springframework.security.core.userdetails.UserDetails springUser = 
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                );
+        String token = jwtService.generateToken(springUser);
         return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole().name());
     }
 
@@ -105,7 +123,13 @@ public class AuthService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
-        String token = jwtService.generateToken(user.getEmail());
+        org.springframework.security.core.userdetails.UserDetails springUser = 
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+                );
+        String token = jwtService.generateToken(springUser);
         return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole().name());
     }
 }
